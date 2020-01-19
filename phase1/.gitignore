@@ -1,2 +1,2 @@
 conf.ini
-_pycache_/*
+__pycache__/
