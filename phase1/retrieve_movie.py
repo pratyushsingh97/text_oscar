@@ -5,21 +5,43 @@ import cast as ct
 import requests 
 import json
 import asyncio
+import csv
 
 from configparser import ConfigParser
 from string import Template
 from pprint import pprint
 
+from fuzzywuzzy import fuzz, process
+
 config = ConfigParser()
 config.read('conf.ini')
 
+def _fuzzy_match(movie_title):
+    with open('resources/final_movies.csv', newline='') as movies_list:
+        reader = csv.DictReader(movies_list)
+        movies = [movie['Movie_Titles'].strip() for movie in reader]
+        match, confidence = process.extract(movie_title, movies, limit=1, scorer=fuzz.token_sort_ratio)[0]
+        
+        print(match, confidence)
+        
+        if confidence >= 70:
+            movie_title = match
+        
+    
+    movies_list.close()
+    
+    return movie_title
+            
+            
 def _preprocess_title(movie_title):
     ''' 
     This helper function takes the movie title and removes redundant spaces.
     It also formats movie titles that are more than one word to be of the format
     "A+B+C"
     '''
+    
     movie_title = movie_title.strip()
+    movie_title = _fuzzy_match(movie_title)
     
     if ' ' in movie_title:
         movie_title_parts = movie_title.split()
@@ -100,12 +122,11 @@ def retrieve_movie_metadata(movie_title=None):
         movie_data = requests.get(imdb_api).text
         movie_data = json.loads(movie_data)
         
-        print(movie_data)
-        
         if movie_data is None:
             return "Error has Occurred!"
     
-    except:
+    except Exception as e:
+        print(e)
         return "Error has Occurred!"
     
     return movie_data
