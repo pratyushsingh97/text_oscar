@@ -9,15 +9,24 @@ app= Flask(__name__)
 def process_request():
     movie_title = request.values.get('Body', None)
     phone_number = request.values.get('From', None)
-    
-    # get the formatted movie metadata
-    response_message = get_movie_metadata(movie_title)
 
     # give the requester an ack
     resp = MessagingResponse()
     resp.message(f"Getting the details about '{movie_title}' right now...")
-    resp.message(response_message)
-
+    
+    # get the formatted movie metadata
+    response = get_movie_metadata(movie_title)
+    
+    # movie results part 1
+    movie_information = resp.message(response['movie_information'])
+    
+    # return the review of the movie if it exists
+    review = response['review_nyt']
+    
+    if review != 'None':
+        msg = f"From the NYT: {review}"
+        resp.message(msg)
+    
     return str(resp)
 
 

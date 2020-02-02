@@ -20,8 +20,6 @@ def _tmdb_id(imdb_id):
         
         return -1
     
-    
-
 def cast(imdb_id):
     # only get the top 5 cast members
     tmdb_id = _tmdb_id(imdb_id)

@@ -1,6 +1,7 @@
 # Hit the IMDB API and Rotton Tomato API to retrieve movie ratings and summary 
 
 import cast as ct
+import reviews
 
 import requests 
 import json
@@ -21,8 +22,6 @@ def _fuzzy_match(movie_title):
         reader = csv.DictReader(movies_list)
         movies = [movie['Movie_Titles'].strip() for movie in reader]
         match, confidence = process.extract(movie_title, movies, limit=1, scorer=fuzz.token_sort_ratio)[0]
-        
-        print(match, confidence)
         
         if confidence >= 70:
             movie_title = match
@@ -96,7 +95,7 @@ def _format_response(json_response):
         cast_members = ct.cast(imdb_id)
         
     
-    response = response_template.substitute(movie_title=movie_title,
+    movie_info = response_template.substitute(movie_title=movie_title,
                                 rating=rating,
                                 director=directors,
                                 cast=cast_members,
@@ -104,14 +103,16 @@ def _format_response(json_response):
                                 imdb=imdb,
                                 rt=rt)
     
+    
+    review = reviews.reviews(movie_title)
+    
+    response = {"movie_information": movie_info, "review_nyt": str(review)}
+    
     return response
         
 
 # @TODO: Return an appropriate error message
-def retrieve_movie_metadata(movie_title=None):
-    if movie_title is None:
-        return "Error!" 
-    
+def _movie_information(movie_title=None):
     try:
         movie_title = _preprocess_title(movie_title)
         
@@ -124,6 +125,10 @@ def retrieve_movie_metadata(movie_title=None):
         
         if movie_data is None:
             return "Error has Occurred!"
+        
+        if 'Response' in movie_data.keys():
+            if movie_data['Response'] == 'False':
+                return f"Unable to retrieve {movie_title}"
     
     except Exception as e:
         print(e)
@@ -133,8 +138,15 @@ def retrieve_movie_metadata(movie_title=None):
 
 
 def get_movie_metadata(title):
-    movie_data = retrieve_movie_metadata(movie_title=title)
-    movie_md = _format_response(movie_data)
+    if title is None:
+        return "Error!" 
+    
+    if not len(title.strip()):
+        return "Pass a movie title"
+    
+    movie_data = _movie_information(movie_title=title)
+    movie_md = _format_response(movie_data) if movie_data != f"Unable to retrieve {title}" else movie_data
     
     return movie_md
+
         
