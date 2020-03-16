@@ -1,4 +1,5 @@
-# Text Oscar
+![Bong Joon](/imgs/Bong-Joon-Ho-Oscars-GQ-2020-021020)
+# Text Oscar 
 
 ## Background
 This project is the first of a personal challenge of mine in 2020 -- build a proof-of-concept in a weekend. Text Oscar was all built in one weekend a couple weeks ago, and I liked this project enough that I am slowly fleshing out the code to make it a legitimate product. Obviously, if you see some ideas that you would like to add, simply open a pull-request or contribute to the project directly :). 
