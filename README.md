@@ -1,4 +1,4 @@
-![Bong Joon](/imgs/Bong-Joon-Ho-Oscars-GQ-2020-021020)
+![Bong Joon](/imgs/Bong-Joon-Ho-Oscars-GQ-2020-021020.jpg)
 # Text Oscar 
 
 ## Background
