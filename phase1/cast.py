@@ -1,3 +1,4 @@
+# Written By: Pratyush Singh
 import json
 import requests
 from configparser import ConfigParser
@@ -6,7 +7,16 @@ config = ConfigParser()
 config.read('conf.ini')
 
 # @TODO: Add error catching
-def _tmdb_id(imdb_id):
+def _tmdb_id(imdb_id:int) -> int:
+    """Uses the imdb id of the movie to query the OMDB database id.
+    The OMDB id is used to retrieve the cast of the movie from the OMDB API
+    
+    Args:
+    imdb_id: a unique key for the movie requested 
+    
+    Returns:
+    tomdb: a unique key for the same movie in the movie database.
+    """
     try:
         tmdb_key = config['API']['TMDB']
         tmdb_api = f"https://api.themoviedb.org/3/find/{imdb_id}?api_key={tmdb_key}&language=en-US&external_source=imdb_id"

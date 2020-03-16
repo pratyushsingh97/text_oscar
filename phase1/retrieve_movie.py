@@ -1,4 +1,5 @@
-# Hit the IMDB API and Rotton Tomato API to retrieve movie ratings and summary 
+# Hit the IMDB API and Rotton Tomato API to retrieve movie ratings and summary
+# Written by: Pratyush Singh 
 
 import cast as ct
 import reviews
@@ -17,7 +18,16 @@ from fuzzywuzzy import fuzz, process
 config = ConfigParser()
 config.read('conf.ini')
 
-def _fuzzy_match(movie_title):
+def _fuzzy_match(movie_title:str) -> str:
+    """Get the closest match to the requested movie title. Fuzzy matching 
+    searches final_movies.csv file to return the closes match.
+    
+    Args:
+    movie_title: the movie title requested by the user
+    
+    Returns:
+    movie_title: a fuzzy matched movie_title
+    """
     with open('resources/final_movies.csv', newline='') as movies_list:
         reader = csv.DictReader(movies_list)
         movies = [movie['Movie_Titles'].strip() for movie in reader]
@@ -32,11 +42,18 @@ def _fuzzy_match(movie_title):
     return movie_title
             
             
-def _preprocess_title(movie_title):
+def _preprocess_title(movie_title:str) -> str:
     ''' 
-    This helper function takes the movie title and removes redundant spaces.
-    It also formats movie titles that are more than one word to be of the format
-    "A+B+C"
+    This helper function takes the movie title and removes redundant spaces. 
+    It also fuzzy matches the movie title, and it also formats movie titles 
+    that are more than one word to be of the format "A+B+C". This format is 
+    required to ping several APIs.
+    
+    Args:
+    movie_title: raw movie title. 
+    
+    Returns:
+    movie_title: cleaned movie title
     '''
     
     movie_title = movie_title.strip()
@@ -50,7 +67,17 @@ def _preprocess_title(movie_title):
     
     return movie_title
 
-def _check_for_ratings_keys(rating_json, reviewer_key):
+def _check_for_ratings_keys(rating_json:json, reviewer_key:str) -> int:
+    """Parses the OMDB response for the imdb and rotten tomatoes 
+    ratings for a movie.
+    
+    Returns the index at which the rating resides in the json response 
+    
+    Args:
+    ratings_json: json response containing moving metadata from OMDB
+    reviewer_key: either 'Rotten Tomatoes' or 'IMDB'. 
+    """
+    
     exists = False
     
     for idx, reviewer in enumerate(rating_json):
@@ -60,7 +87,17 @@ def _check_for_ratings_keys(rating_json, reviewer_key):
     return None
     
 
-def _format_response(json_response):
+def _format_response(json_response:json) -> dict:
+    """ A helper method that formats the text message response to the user.
+    
+    Args:
+    json_response: the movie metadata information from OMDB 
+    
+    Returns:
+    response: a dictionary that contains a essential movie information along 
+    with the summary of the movie.
+    """
+    
     response_template = Template("$movie_title ($rating)\n" + 
                                  "Directed By: $director\n" + 
                                  "Cast: $cast\n\n" + 
@@ -112,7 +149,13 @@ def _format_response(json_response):
         
 
 # @TODO: Return an appropriate error message
-def _movie_information(movie_title=None):
+def _movie_information(movie_title:str=None) -> json:
+    """ Retrieves movie metadata by pinging the OMDB (Open Movie Database)
+    
+    Args: 
+    movie_title: the movie requested
+    movie_data: json response containing the movie metadata 
+    """
     try:
         movie_title = _preprocess_title(movie_title)
         
@@ -137,7 +180,16 @@ def _movie_information(movie_title=None):
     return movie_data
 
 
-def get_movie_metadata(title):
+def get_movie_metadata(title:str) -> json:
+    """ Runner function that retrieves the data about the movie
+    
+    Args:
+    title: movie title 
+    
+    Returns:
+    movie_md: json of movie metadata
+    """
+    
     if title is None:
         return "Error!" 
     

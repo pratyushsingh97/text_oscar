@@ -1,4 +1,9 @@
 # Scrape movie reviews from ny times 
+# Written by: Pratyush Singh
+''' This file pings the NYT API and retrieves the link to the reviews. 
+If a review is present, then the 'review_text' column is filled with "test". If
+no review is present, then the column is filled with "NA".
+'''
 import csv
 import requests
 import json
@@ -13,7 +18,10 @@ from tqdm import tqdm
 
 YEAR = 2019
 
-def movie_list():
+def movie_list() -> list:
+    """Retrieve the movies from the final_movies.csv. This file contains
+    all the movies that were released in 2019. 
+    """
     movies = []
     with open('../phase1/resources/final_movies.csv', newline='') as movies_list:
         reader = csv.DictReader(movies_list)
@@ -62,10 +70,10 @@ def scrape(url):
      
 
 def runner():
+    """Constructs the pandas DataFrame with the movie information"""
     review_df = {"movie_title": [], "article_link": [], "text": []}
     
     movies = movie_list()
-    #review_df["movie_title"] = movies
     
     for idx, movie in enumerate(tqdm(movies)):
         # extra cleaning 
