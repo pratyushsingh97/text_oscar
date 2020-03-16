@@ -19,7 +19,7 @@ TextOscar also returns a summary of the NYT review of the movie (if it exists). 
 ### Other Cool Features
 1. [Fuzzy Matching](https://github.com/seatgeek/fuzzywuzzy) - Text Oscar will try to understand your typos and do its best to return the best possible match. 
 
-## Great How Do I Run This?
+## Great, How Do I Run This?
 Unfortunately, TextOscar only runs on my account for now! However feel free to clone this project and run it off of your own server. 
 ### What Do You Need?
 1. [A Twilio Account and phone number (along with some credits)](https://www.twilio.com)
