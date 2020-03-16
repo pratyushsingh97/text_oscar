@@ -8,3 +8,10 @@ Ever run into a situation where you don't know what a movie is about? You would 
 
 
 ## How does it work?
+![Text Oscar](/imgs/text_oscar.gif)
+
+### Movie Metadata
+TextOscar utilizes Twilio as the front-end and a python backend to process the movie and retrieve the metadata. The data for the movie is retrieved from IMDB API and the OMDB (Open Movie Database) API. 
+
+### Text Summarization
+TextOscar also returns a summary of the NYT review of the movie (if it exists). The text summarization is an extractive-text summarization model that uses TF-IDF to calculate word weights, and consequently the sentence weights. The top two highest weighted sentences are returned to the user. In the future, I would like to expand this to use abstractive summarization techniques. Other limitations include that the summarization is only available for movies released in 2019. 
