@@ -15,3 +15,11 @@ TextOscar utilizes Twilio as the front-end and a python backend to process the m
 
 ### Text Summarization
 TextOscar also returns a summary of the NYT review of the movie (if it exists). The text summarization is an extractive-text summarization model that uses TF-IDF to calculate word weights, and consequently the sentence weights. The top two highest weighted sentences are returned to the user. In the future, I would like to expand this to use abstractive summarization techniques. Other limitations include that the summarization is only available for movies released in 2019. 
+
+## Great How Do I Run This?
+Unfortunately, TextOscar only runs on my account for now! However feel free to clone this project and run it off of your own server. 
+### What Do You Need?
+1. A Twilio Account and phone number (along with some credits)
+2. A Open Movie Database API Key
+3. IMDB Moive Database API KEY
+4. python 3.*
