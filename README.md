@@ -1,6 +1,8 @@
 ![Bong Joon](/imgs/Bong-Joon-Ho-Oscars-GQ-2020-021020.jpg)
 # Text Oscar 
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pratyushsingh97/text_oscar/master?filepath=https%3A%2F%2Fgithub.com%2Fpratyushsingh97%2Ftext_oscar%2Fblob%2Fmaster%2Fphase2%2FSummarization.ipynb)
+
 ## Background
 This project is the first of a personal challenge of mine in 2020 -- build a proof-of-concept in a weekend. Text Oscar was all built in one weekend a couple weeks ago, and I liked this project enough that I am slowly fleshing out the code to make it a legitimate product. Obviously, if you see some ideas that you would like to add, simply open a pull-request or contribute to the project directly :). 
 
